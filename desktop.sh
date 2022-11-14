@@ -72,8 +72,9 @@ echo "Installing Gnome dark mode..."
 set -e
 wget -q https://github.com/EliverLara/Nordic/releases/download/v${VERSION_NORDIC}/${VERSION_NORDIC_STYLE}.tar.xz
 tar -xf ${VERSION_NORDIC_STYLE}.tar.xz
-sudo mv ./${VERSION_NORDIC_STYLE} /usr/share/themes
 sudo mkdir -p /usr/share/themes
+sudo cp -r ./${VERSION_NORDIC_STYLE} /usr/share/themes/Nordic
+rm -rf ./${VERSION_NORDIC_STYLE} ./${VERSION_NORDIC_STYLE}.tar.xz
 gsettings set org.gnome.desktop.interface gtk-theme "Nordic"
 gsettings set org.gnome.desktop.wm.preferences theme "Nordic"
 set +e
@@ -85,8 +86,9 @@ if ! dpkg-query -W neovim &>/dev/null; then
 	echo "Installing Astrovim..."
 	set -e
 	wget -q https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
+	sudo apt install -y ./nvim-linux64.deb 1>/dev/null
+	rm nvim-linux64.deb
 	set +e
-	sudo apt install -y ./nvim-linux64.deb
 	mv ~/.config/nvim ~/.config/nvim.bkp 2>/dev/null
 	git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim 1> /dev/null
 	nvim --headless -c 'autocmd User PackerComplete quitall' \
@@ -95,28 +97,31 @@ if ! dpkg-query -W neovim &>/dev/null; then
 fi
 
 # VSCodium
-case ${answer_codium:0:1} in
-	y|Y )
-		echo "Installing VSCodium..."
-		set -e
-		wget -q https://github.com/VSCodium/vscodium/releases/download/${VERSION_CODIUM}/codium_${VERSION_CODIUM}_amd64.deb
-		sudo apt install -y ./codium_${VERSION_CODIUM}_amd64.deb
-		rm ./codium_${VERSION_CODIUM}_amd64.deb
-		set +e
-	;;
-	* ):;;
-esac
+if ! dpkg-query -W codium &>/dev/null; then
+	case ${answer_codium:0:1} in
+		y|Y )
+			echo "Installing VSCodium..."
+			set -e
+			wget -q https://github.com/VSCodium/vscodium/releases/download/${VERSION_CODIUM}/codium_${VERSION_CODIUM}_amd64.deb
+			sudo apt install -y ./codium_${VERSION_CODIUM}_amd64.deb &>/dev/null
+			rm ./codium_${VERSION_CODIUM}_amd64.deb
+			set +e
+		;;
+		* ):;;
+	esac
+fi
 
 # Google Chrome
-case ${answer_chrome:0:1} in
-	y|Y )
-		echo "Installing Google Chrome..."
-		set -e
-		wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-		sudo apt install -y ./google-chrome-stable_current_amd64.deb
-		rm ./google-chrome-stable_current_amd64.deb
-		set +e
-	;;
-	* ):;;
-esac
-
+if ! dpkg-query -W google-chrome-stable &>/dev/null; then
+	case ${answer_chrome:0:1} in
+		y|Y )
+			echo "Installing Google Chrome..."
+			set -e
+			wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+			sudo apt install -y ./google-chrome-stable_current_amd64.deb &>/dev/null
+			rm ./google-chrome-stable_current_amd64.deb
+			set +e
+		;;
+		* ):;;
+	esac
+fi
