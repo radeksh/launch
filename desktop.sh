@@ -18,14 +18,14 @@ VERSION_NORDIC="2.2.0"
 VERSION_NORDIC_STYLE="Nordic-darker-v40"
 
 SYSTEM_PACKAGES=(
-	zsh						# shell
-	wget curl				# data transfer
-	terminator				# terminal emulator
-	tree mc	xz-utils		# file manipulation
-	git						# dev tools
-	gnome-shell-extensions	# gnome apperance
-	net-tools htop nethogs	# sys info tools
-	whois host nmap			# sys info tools
+	zsh                     # shell
+	wget curl               # data transfer
+	terminator              # terminal emulator
+	tree mc	xz-utils        # file manipulation
+	git                     # dev tools
+	gnome-shell-extensions  # gnome apperance
+	net-tools htop nethogs  # sys info tools
+	whois host nmap         # sys info tools
 )
 
 # Add intel wifi card drivers (for hyper)

@@ -1,6 +1,6 @@
 ZSH_THEME="eastwood"
 HIST_STAMPS="dd/mm/yyyy"
-plugins=(git,docker,docker-compose,ansible,emoji,jira,nmap)
+plugins=(git docker docker-compose ansible emoji jira nmap)
 
 export ZSH="$HOME/.oh-my-zsh"
 export LANG=pl_PL.UTF-8
@@ -70,11 +70,8 @@ alias vi="nvim"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-
 # User configuration
-
 # export MANPATH="/usr/local/man:$MANPATH"
-
 # You may need to manually set your language environment
 # 
 # Preferred editor for local and remote sessions
