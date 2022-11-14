@@ -99,10 +99,10 @@ case ${answer_codium:0:1} in
 	y|Y )
 		echo "Installing VSCodium..."
 		set -e
-		wget -q https://github.com/VSCodium/vscodium/releases/download/1.73.1.22314/codium_${VERSION_CODIUM}_amd64.deb
-		set +e
-		sudo apt install -y codium_${VERSION_CODIUM}_amd64.deb
+		wget -q https://github.com/VSCodium/vscodium/releases/download/${VERSION_CODIUM}/codium_${VERSION_CODIUM}_amd64.deb
+		sudo apt install -y ./codium_${VERSION_CODIUM}_amd64.deb
 		rm ./codium_${VERSION_CODIUM}_amd64.deb
+		set +e
 	;;
 	* ):;;
 esac
@@ -113,9 +113,9 @@ case ${answer_chrome:0:1} in
 		echo "Installing Google Chrome..."
 		set -e
 		wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-		set +e
-		sudo apt install -y google-chrome-stable_current_amd64.deb
+		sudo apt install -y ./google-chrome-stable_current_amd64.deb
 		rm ./google-chrome-stable_current_amd64.deb
+		set +e
 	;;
 	* ):;;
 esac
