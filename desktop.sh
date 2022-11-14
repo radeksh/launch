@@ -4,32 +4,32 @@
 ### Introduction
 ###
 ### This script is made to initialize fresh Debian-based distro.
-### Tested on Debian 11
-###
+### Tested on: Debian 11
+################################################################
 
 #################
 ### Configuration
 
-SYSTEM_PACKAGES=(
-	zsh  			# shell
-	wget curl		# data transfer
-	terminator		# terminal emulator
-	tree mc	xz-utils	# file manipulation
-	git			# dev tools
-	gnome-shell-extensions	# gnome apperance
-	net-tools htop nethogs	# sys info tools
-	whois host 		# sys info tools
-)
-
-# Add intel wifi card drivers (for hyper)
-if [[ $(hostname | grep hyper) ]]; then SYSTEM_PACKAGES+=(firmware-iwlwifi); fi
+# VSCodium version here
+VERSION_CODIUM="1.73.1.22314"
 
 # Nordic (Gnome theme) vars here
 VERSION_NORDIC="2.2.0"
 VERSION_NORDIC_STYLE="Nordic-darker-v40"
 
-# VSCodium version here
-VERSION_CODIUM="1.73.1.22314"
+SYSTEM_PACKAGES=(
+	zsh						# shell
+	wget curl				# data transfer
+	terminator				# terminal emulator
+	tree mc	xz-utils		# file manipulation
+	git						# dev tools
+	gnome-shell-extensions	# gnome apperance
+	net-tools htop nethogs	# sys info tools
+	whois host nmap			# sys info tools
+)
+
+# Add intel wifi card drivers (for hyper)
+if [[ $(hostname | grep hyper) ]]; then SYSTEM_PACKAGES+=(firmware-iwlwifi); fi
 
 ###############
 ### Main script
@@ -107,7 +107,8 @@ if ! dpkg-query -W codium &>/dev/null; then
 			rm ./codium_${VERSION_CODIUM}_amd64.deb
 			set +e
 		;;
-		* ):;;
+		* )
+		:;;
 	esac
 fi
 
@@ -122,6 +123,7 @@ if ! dpkg-query -W google-chrome-stable &>/dev/null; then
 			rm ./google-chrome-stable_current_amd64.deb
 			set +e
 		;;
-		* ):;;
+		* )
+		:;;
 	esac
 fi
