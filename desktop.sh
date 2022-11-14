@@ -47,6 +47,7 @@ if ! dpkg-query -W sudo &>/dev/null; then
 fi
 
 # User input
+read -p "Do you wish to install oh-my-zsh and change shell to ZSH? [Y/n] " answer_zsh
 read -p "Do you wish to install VSCodium? [y/N] " answer_codium
 read -p "Do you wish to install Google Chrome? [y/N] " answer_chome
 
@@ -79,7 +80,14 @@ gsettings set org.gnome.desktop.interface gtk-theme "Nordic"
 gsettings set org.gnome.desktop.wm.preferences theme "Nordic"
 set +e
 
-# TODO: ZSH
+# ZSH
+case ${answer_codium:0:1} in
+	n|N ):;;
+	* )
+		sh -c "$(curl -A 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0' -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 1>/dev/null
+		sudo chsh -s $(which zsh) $USER
+	;;
+esac
 
 # AstroVIM
 if ! dpkg-query -W neovim &>/dev/null; then
