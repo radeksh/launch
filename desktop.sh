@@ -20,7 +20,7 @@ VERSION_NORDIC_STYLE="Nordic-darker-v40"
 SYSTEM_PACKAGES=(
     zsh # shell
     wget curl # sys tools
-    whois host nmap net-tools nethogs netcat # net tools
+    whois host nmap net-tools nethogs netcat mtr # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
     terminator # terminal emulator
