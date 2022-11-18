@@ -20,11 +20,11 @@ VERSION_NORDIC_STYLE="Nordic-darker-v40"
 SYSTEM_PACKAGES=(
     zsh # shell
     wget curl # sys tools
-    whois host nmap net-tools nethogs # net tools
+    whois host nmap net-tools nethogs netcat # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
     terminator # terminal emulator
-    tree mc	xz-utils # file manipulation
+    tree mc xz-utils # file manipulation
     python3 python3-dev python3-pip # python
     git # dev tools
     gnome-shell-extensions # gnome
@@ -43,9 +43,12 @@ then
     echo -e "\e[31mYou must run this script as \e[1mnon-root user!\e[0m"
     exit 2
 fi
-
 if ! dpkg-query -W sudo &>/dev/null; then
     echo -e "\e[31mNo sudo package detected! Please install it before using this script!\e[0m"
+    exit 2
+fi
+if ! sudo id &>/dev/null; then
+    echo -e "\e[31mYou must have posibility to run commands with sudo!\e[0m"
     exit 2
 fi
 
@@ -73,8 +76,8 @@ sudo apt-get update 1>/dev/null && sudo apt-get install -y ${SYSTEM_PACKAGES[@]}
 pip3 install glances
 set +e
 
-# Gnome theme/settings
-echo "Installing Gnome dark mode..."
+# Gnome settings
+echo "Setting Gnome..."
 set -e
 wget -q https://github.com/EliverLara/Nordic/releases/download/v${VERSION_NORDIC}/${VERSION_NORDIC_STYLE}.tar.xz
 tar -xf ${VERSION_NORDIC_STYLE}.tar.xz
@@ -86,10 +89,12 @@ gsettings set org.gnome.desktop.wm.preferences theme "Nordic"
 set +e
 
 # ZSH
+echo "Setting ZSH..."
 case ${answer_codium:0:1} in
     n|N ):;;
     * )
         set -e
+        rm -rf /home/ra/.oh-my-zsh
         sh -c "$(curl -A 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0' -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 1>/dev/null
         sudo chsh -s $(which zsh) $USER
         set +e
@@ -146,3 +151,4 @@ fi
 # SSH configuration (from mounted pendrive)
 # VPN configuration (from mounted pendrive)
 # Email client configuration [Thunderbird/Mutt] (from mounted pendrive)
+# Remove CTRL+SHIFT+E Gnome/Terminator collision
