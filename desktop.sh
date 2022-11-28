@@ -26,7 +26,7 @@ SYSTEM_PACKAGES=(
     terminator # terminal emulator
     tree mc xz-utils # file manipulation
     python3 python3-dev python3-pip # python
-    git # dev tools
+    git jq # dev tools
     gnome-shell-extensions # gnome
     python3-jinja2 python3-psutil python3-setuptools hddtemp lm-sensors # for glances
 )
