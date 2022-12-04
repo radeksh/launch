@@ -90,7 +90,7 @@ set +e
 
 # ZSH
 echo "Setting ZSH..."
-case ${answer_codium:0:1} in
+case ${answer_zsh:0:1} in
     n|N ):;;
     * )
         set -e
