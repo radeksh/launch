@@ -55,18 +55,18 @@ fi
 # User input
 read -p "Do you wish to install oh-my-zsh and change shell to ZSH? [Y/n] " answer_zsh
 read -p "Do you wish to install VSCodium? [y/N] " answer_codium
-read -p "Do you wish to install Google Chrome? [y/N] " answer_chome
+read -p "Do you wish to install Google Chrome? [y/N] " answer_chrome
 
 # Add contrib debian repository
-if grep -Fxq "contrib" /etc/apt/sources.list; then
+if ! grep -Fq "contrib" /etc/apt/sources.list; then
     echo "Adding contrib to Debian repositories list..."
     sudo sed -i '/^deb/ s/$/ contrib/' /etc/apt/sources.list
 fi
 
 # Add non-free debian repository
-if grep -Fxq "non-free" /etc/apt/sources.list; then
+if ! grep -Fq "non-free" /etc/apt/sources.list; then
     echo "Adding non-free to Debian repositories list..."
-        sudo sed -i '/^deb/ s/$/ non-free/' /etc/apt/sources.list
+    sudo sed -i '/^deb/ s/$/ non-free/' /etc/apt/sources.list
 fi
 
 # Install software
@@ -94,9 +94,10 @@ case ${answer_zsh:0:1} in
     n|N ):;;
     * )
         set -e
-        rm -rf /home/ra/.oh-my-zsh
-        sh -c "$(curl -A 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0' -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 1>/dev/null
+        rm -rf /home/$USER/.oh-my-zsh
+        sh -c "$(curl -A 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0' -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended 1>/dev/null
         sudo chsh -s $(which zsh) $USER
+        cp dotenv/.zshrc ~
         set +e
     ;;
 esac
@@ -111,9 +112,10 @@ if ! dpkg-query -W neovim &>/dev/null; then
     set +e
     mv ~/.config/nvim ~/.config/nvim.bkp 2>/dev/null
     git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim 1> /dev/null
-    nvim --headless -c 'autocmd User PackerComplete quitall' \
-        -c 'PackerSync' \
-        -c 'TSInstall python'
+    # TODO: BUGGED?
+    # nvim --headless -c 'autocmd User PackerComplete quitall' \
+    #     -c 'PackerSync' \
+    #     -c 'TSInstall python'
 fi
 
 # VSCodium
@@ -148,7 +150,7 @@ if ! dpkg-query -W google-chrome-stable &>/dev/null; then
     esac
 fi
 
-# SSH configuration (from mounted pendrive)
-# VPN configuration (from mounted pendrive)
-# Email client configuration [Thunderbird/Mutt] (from mounted pendrive)
-# Remove CTRL+SHIFT+E Gnome/Terminator collision
+# TODO: SSH configuration (from mounted pendrive)
+# TODO: VPN configuration (from mounted pendrive)
+# TODO: Email client configuration [Thunderbird/Mutt] (from mounted pendrive)
+# TODO: Remove CTRL+SHIFT+E Gnome/Terminator collision
