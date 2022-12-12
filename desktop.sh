@@ -20,7 +20,7 @@ VERSION_NORDIC_STYLE="Nordic-darker-v40"
 SYSTEM_PACKAGES=(
     zsh # shell
     wget curl # sys tools
-    whois host nmap net-tools nethogs netcat mtr # net tools
+    whois host nmap net-tools nethogs netcat mtr dnsutils # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
     terminator # terminal emulator
@@ -29,6 +29,7 @@ SYSTEM_PACKAGES=(
     git jq # dev tools
     gnome-shell-extensions # gnome
     python3-jinja2 python3-psutil python3-setuptools hddtemp lm-sensors # for glances
+    gimp # user apps
 )
 
 # Add intel wifi card drivers (for hyper)
