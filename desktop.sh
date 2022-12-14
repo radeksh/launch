@@ -19,14 +19,14 @@ VERSION_NORDIC_STYLE="Nordic-darker-v40"
 
 SYSTEM_PACKAGES=(
     zsh # shell
-    wget curl # sys tools
+    wget curl ntp # sys tools
     whois host nmap net-tools nethogs netcat mtr dnsutils # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
     terminator # terminal emulator
     tree mc xz-utils # file manipulation
     python3 python3-dev python3-pip # python
-    git jq # dev tools
+    git jq docker.io docker-compose # dev tools
     gnome-shell-extensions # gnome
     python3-jinja2 python3-psutil python3-setuptools hddtemp lm-sensors # for glances
     gimp # user apps
