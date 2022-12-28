@@ -55,8 +55,8 @@ fi
 
 # User input
 read -p "Do you wish to install oh-my-zsh and change shell to ZSH? [Y/n] " answer_zsh
-read -p "Do you wish to install VSCodium? [y/N] " answer_codium
-read -p "Do you wish to install Google Chrome? [y/N] " answer_chrome
+read -p "Do you wish to install VSCodium? [Y/n] " answer_codium
+read -p "Do you wish to install Google Chrome? [Y/n] " answer_chrome
 
 # Add contrib debian repository
 if ! grep -Fq "contrib" /etc/apt/sources.list; then
@@ -87,6 +87,10 @@ sudo cp -r ./${VERSION_NORDIC_STYLE} /usr/share/themes/Nordic
 rm -rf ./${VERSION_NORDIC_STYLE} ./${VERSION_NORDIC_STYLE}.tar.xz
 gsettings set org.gnome.desktop.interface gtk-theme "Nordic"
 gsettings set org.gnome.desktop.wm.preferences theme "Nordic"
+
+# Disable CTRL+SHIFT+E emoji hotkey (conflict with terminator)
+gsettings set org.freedesktop.ibus.panel.emoji hotkey "[]"
+
 set +e
 
 # ZSH
@@ -122,7 +126,8 @@ fi
 # VSCodium
 if ! dpkg-query -W codium &>/dev/null; then
     case ${answer_codium:0:1} in
-        y|Y )
+        n|N ):;;
+        *)
             echo "Installing VSCodium..."
             set -e
             wget -q https://github.com/VSCodium/vscodium/releases/download/${VERSION_CODIUM}/codium_${VERSION_CODIUM}_amd64.deb
@@ -130,15 +135,14 @@ if ! dpkg-query -W codium &>/dev/null; then
             rm ./codium_${VERSION_CODIUM}_amd64.deb
             set +e
         ;;
-        * )
-        :;;
     esac
 fi
 
 # Google Chrome
 if ! dpkg-query -W google-chrome-stable &>/dev/null; then
     case ${answer_chrome:0:1} in
-        y|Y )
+        n|N ):;;
+        *)
             echo "Installing Google Chrome..."
             set -e
             wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -146,12 +150,9 @@ if ! dpkg-query -W google-chrome-stable &>/dev/null; then
             rm ./google-chrome-stable_current_amd64.deb
             set +e
         ;;
-        * )
-        :;;
     esac
 fi
 
 # TODO: SSH configuration (from mounted pendrive)
 # TODO: VPN configuration (from mounted pendrive)
 # TODO: Email client configuration [Thunderbird/Mutt] (from mounted pendrive)
-# TODO: Remove CTRL+SHIFT+E Gnome/Terminator collision
