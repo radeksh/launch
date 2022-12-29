@@ -21,8 +21,8 @@ ENCRYPTED_STORAGE_PARTUUID=""
 
 SYSTEM_PACKAGES=(
     zsh # shell
-    wget curl ntp gpart gparted binwalk ncdu # sys tools
-    whois host nmap net-tools nethogs netcat mtr dnsutils # net tools
+    rsync wget curl ntp gpart gparted binwalk ncdu # sys tools
+    whois host nmap net-tools nethogs netcat mtr dnsutils iputils-ping # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
     terminator # terminal emulator
@@ -33,7 +33,7 @@ SYSTEM_PACKAGES=(
     gimp # user apps
 )
 
-# Add intel wifi card drivers (for hyper)
+# Add intel wifi card drivers (for hyper device)
 if [[ $(hostname | grep hyper) ]]; then SYSTEM_PACKAGES+=(firmware-iwlwifi); fi
 
 ###############
