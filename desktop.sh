@@ -17,9 +17,11 @@ VERSION_CODIUM="1.73.1.22314"
 VERSION_NORDIC="2.2.0"
 VERSION_NORDIC_STYLE="Nordic-darker-v40"
 
+ENCRYPTED_STORAGE_PARTUUID=""
+
 SYSTEM_PACKAGES=(
     zsh # shell
-    wget curl ntp # sys tools
+    wget curl ntp gpart gparted binwalk ncdu # sys tools
     whois host nmap net-tools nethogs netcat mtr dnsutils # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
@@ -28,7 +30,6 @@ SYSTEM_PACKAGES=(
     python3 python3-dev python3-pip # python
     git jq docker.io docker-compose # dev tools
     gnome-shell-extensions # gnome
-    python3-jinja2 python3-psutil python3-setuptools hddtemp lm-sensors # for glances
     gimp # user apps
 )
 
@@ -90,6 +91,9 @@ gsettings set org.gnome.desktop.wm.preferences theme "Nordic"
 
 # Disable CTRL+SHIFT+E emoji hotkey (conflict with terminator)
 gsettings set org.freedesktop.ibus.panel.emoji hotkey "[]"
+
+systemctl disable exim4
+systemctl disable avahi-daemon
 
 set +e
 
@@ -153,6 +157,22 @@ if ! dpkg-query -W google-chrome-stable &>/dev/null; then
     esac
 fi
 
-# TODO: SSH configuration (from mounted pendrive)
-# TODO: VPN configuration (from mounted pendrive)
+
+# Recovery from encrypted storage
+if ls -1 /dev/disk/by-partuuid/${ENCRYPTED_STORAGE_PARTUUID}; then
+    mkdir ~/mnt
+    veracrypt /dev/disk/by-partuuid/${ENCRYPTED_STORAGE_PARTUUID} ~/mnt
+    # cp ssh files
+    cp -r ~/mnt/recovery/ssh/* ~/.ssh
+    # import gpg keys
+    gpg --import ~/mnt/recovery/gpg/*
+    # cp wireguard configs 
+    for i in $(ls ~/mnt/recovery/vpn/*.conf); do sudo cp $i /etc/wireguard; done
+    # cp OpenVPN configs 
+    for i in $(ls ~/mnt/recovery/vpn/*.ovpn); do nmcli connection import type openvpn file $i; done
+    for i in $(ls -1 ~/mnt/recovery/vpn/*.ovpn | sed -e 's/\.ovpn$//'); do nmcli connection modify $i ipv4.never-default true; done
+    # unmount veracrypt volume
+    veracrypt -d -f
+fi
+
 # TODO: Email client configuration [Thunderbird/Mutt] (from mounted pendrive)
