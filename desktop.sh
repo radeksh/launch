@@ -22,7 +22,7 @@ ENCRYPTED_STORAGE_PARTUUID=""
 SYSTEM_PACKAGES=(
     zsh # shell
     rsync wget curl ntp gpart gparted binwalk ncdu # sys tools
-    whois host nmap net-tools nethogs netcat mtr dnsutils iputils-ping # net tools
+    whois host nmap net-tools nethogs netcat mtr dnsutils iputils-ping tcpdump # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
     terminator # terminal emulator
