@@ -157,9 +157,10 @@ if ! dpkg-query -W google-chrome-stable &>/dev/null; then
     esac
 fi
 
+# TODO: Install veracrypt
 
 # Recovery from encrypted storage
-if ls -1 /dev/disk/by-partuuid/${ENCRYPTED_STORAGE_PARTUUID}; then
+if ls -1 /dev/disk/by-partuuid/${ENCRYPTED_STORAGE_PARTUUID} &>/dev/null ; then
     mkdir ~/mnt
     veracrypt /dev/disk/by-partuuid/${ENCRYPTED_STORAGE_PARTUUID} ~/mnt
     # cp ssh files
@@ -175,4 +176,4 @@ if ls -1 /dev/disk/by-partuuid/${ENCRYPTED_STORAGE_PARTUUID}; then
     veracrypt -d -f
 fi
 
-# TODO: Email client configuration [Thunderbird/Mutt] (from mounted pendrive)
+# TODO: Email client configuration [Thunderbird] (from mounted pendrive)

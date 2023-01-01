@@ -1,4 +1,4 @@
-ZSH_THEME="eastwood"
+ZSH_THEME="fino-time"
 HIST_STAMPS="dd/mm/yyyy"
 plugins=(git docker docker-compose ansible emoji jira nmap)
 
