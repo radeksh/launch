@@ -21,7 +21,7 @@ ENCRYPTED_STORAGE_PARTUUID=""
 
 SYSTEM_PACKAGES=(
     zsh # shell
-    rsync wget curl ntp gpart gparted binwalk ncdu # sys tools
+    rsync wget curl ntp gpart gparted binwalk ncdu ansible # sys tools
     whois host nmap net-tools nethogs netcat mtr dnsutils iputils-ping tcpdump # net tools
     mutt thunderbird # e-mail
     wireguard network-manager-openvpn # vpn
@@ -156,6 +156,24 @@ if ! dpkg-query -W google-chrome-stable &>/dev/null; then
         ;;
     esac
 fi
+
+# Install terraform
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+gpg --no-default-keyring \
+    --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    --fingerprint
+
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+sudo apt-get update
+
+sudo apt-get install -y terraform
+
 
 # TODO: Install veracrypt
 
